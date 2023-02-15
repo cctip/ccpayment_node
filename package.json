@@ -1,0 +1,14 @@
+{
+  "name": "ccpayment_demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "client": "yarn workspace client run start",
+    "server": "yarn workspace server run start"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
+}
