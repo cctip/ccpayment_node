@@ -27,7 +27,6 @@ exports.checkoutURLWithSha256 = function checkoutURLWithSha256(params) {
       throw Error(err)
     }
   }
-
 }
 
 exports.checkoutURLWithRSA = function checkoutURLWithRSA(req, res) {

@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import axios from 'axios'
 function App() {
 
-  const req1 = () => {
+  const handleRequest1 = () => {
     const params = {
       "ccpayment_id":"CP10107",
       "app_id":"202301170950281615285414881132544",
@@ -19,10 +19,14 @@ function App() {
       console.log('res:', res.data)
     })
   }
+
+  const handleRequest2 = () => {
+    
+  }
   
   return (
     <div className="App">
-      <button onClick={req1}>checkout url</button>
+      <button onClick={handleRequest1}>checkout url</button>
     </div>
   );
 }

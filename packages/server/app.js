@@ -10,13 +10,11 @@ const logger = require('morgan');
 const bodyParser = require('body-parser')
 const axios = require('axios')
 
-const { decodeRSA, encodeRSA } = require('../tools/src/sign')
 const { checkoutURLWithSha256 } = require('../tools/src/request')
 const router = express.Router()
 
 const app = express();
 // test start
-
 
 
 app.set('views', path.join(__dirname, 'views'));
@@ -28,7 +26,9 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.post('/ccpayment/checkout_url', checkoutURLWithSha256('james'))
+
+app.use('/ccpayment', router)
+router.post('/checkout_url', checkoutURLWithSha256('james'))
 
 
 // catch 404 and forward to error handler
@@ -48,9 +48,7 @@ app.use(function (err, req, res, next) {
 });
 
 
-
-
 let listener = app.listen(7000, function () {
-  console.log('Listening on port ' + listener.address().port); //Listening on port 8888
+  console.log('Listening on port ' + listener.address().port); 
 });
 
