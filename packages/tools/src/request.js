@@ -10,49 +10,47 @@ const requestAPI = {
 
 }
 // checkout url for sha256
-exports.checkoutURLWithSha256 = function checkoutURLWithSha256(options) {
+exports.checkoutURLWithSha256 = async function checkoutURLWithSha256(req, res) {
   const timestamp = parseInt(Date.now() / 1000, 10) + 30
+  const {
+    ccpayment_id,
+    app_id,
+    app_secret,
+    out_order_no,
+    amount,
+    noncestr,
+    ...rest
+  } = req.body;
 
-  return async function (req, res) {
-    const {
-      ccpayment_id,
-      app_id,
-      app_secret,
-      out_order_no,
-      amount,
-      noncestr,
-      ...rest
-    } = req.body;
-
-    const signStr = `ccpayment_id=${ccpayment_id}&app_id=${app_id}&app_secret=${app_secret}&out_order_no=${out_order_no}&amount=${amount}&timestamp=${timestamp}&noncestr=${noncestr}`;
-    const sign = sha256(signStr)
-    const params = {
-      ...rest,
-      ccpayment_id,
-      app_id,
-      app_secret,
-      out_order_no,
-      amount,
-      noncestr,
-      timestamp,
-      sign
-    }
-    try {
-      const result = await axios.post(requestAPI.checkoutURL, params)
-      if (result) {
-        console.log(result.data)
-        res.json(result.data)
-      }
-    } catch (err) {
-      throw Error(err)
-    }
+  const signStr = `ccpayment_id=${ccpayment_id}&app_id=${app_id}&app_secret=${app_secret}&out_order_no=${out_order_no}&amount=${amount}&timestamp=${timestamp}&noncestr=${noncestr}`;
+  const sign = sha256(signStr)
+  console.log('sign:', sign)
+  const params = {
+    ...rest,
+    ccpayment_id,
+    app_id,
+    app_secret,
+    out_order_no,
+    amount,
+    noncestr,
+    timestamp,
+    sign
   }
+  try {
+    const result = await axios.post(requestAPI.checkoutURL, params)
+    if (result) {
+      console.log(result.data)
+      res.json(result.data)
+    }
+  } catch (err) {
+    throw Error(err)
+  }
+
 }
 
 // checkout url for rsa
 exports.checkoutURLWithRSA = function checkoutURLWithRSA(options) {
   const timestamp = parseInt(Date.now() / 1000, 10) + 30
-  
   return async function (req, res) {
     const {
       ccpayment_id,
