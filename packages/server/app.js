@@ -24,7 +24,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/ccpayment', router)
-router.post('/checkout_url', checkoutURLWithSha256('james'))
+router.post('/checkout_url', checkoutURLWithSha256('ja'))
 router.post('/checkout_url_rsa', checkoutURLWithRSA())
 router.post('/createTokenTradeOrder',createTokenTradeOrderWithSha256() )
 // router.post('/checkout_url_rsa', test)
