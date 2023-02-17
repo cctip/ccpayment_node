@@ -1,16 +1,12 @@
-const http = require('http');
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cors = require('cors')
-
-const fs = require('fs');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser')
-const axios = require('axios')
 
-const { checkoutURLWithSha256 } = require('../tools/src/request')
+const { checkoutURLWithSha256, checkoutURLWithRSA, createTokenTradeOrderWithSha256 } = require('../tools/src')
 const router = express.Router()
 
 const app = express();
@@ -29,6 +25,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/ccpayment', router)
 router.post('/checkout_url', checkoutURLWithSha256('james'))
+router.post('/checkout_url_rsa', checkoutURLWithRSA())
+router.post('/createTokenTradeOrder',createTokenTradeOrderWithSha256() )
+// router.post('/checkout_url_rsa', test)
 
 
 // catch 404 and forward to error handler
@@ -48,7 +47,7 @@ app.use(function (err, req, res, next) {
 });
 
 
-let listener = app.listen(7000, function () {
+const listener = app.listen(7000, function () {
   console.log('Listening on port ' + listener.address().port); 
 });
 
