@@ -5,12 +5,10 @@ const { sha256, signRSA, verifyRSA } = require('./sign')
 
 const requestAPI = {
   checkoutURL: 'https://admin.ccpayment.com/ccpayment/v1/concise/url/get',
-  createOrder: 'https://admin.ccpayment.com/ccpayment/v1/pay/CreateTokenTradeOrder',
-  // createOrder: 'http://74ab25e1merchant.cwallet.com/ccpayment/v1/pay/CreateTokenTradeOrder',
+  // createOrder: 'https://admin.ccpayment.com/ccpayment/v1/pay/CreateTokenTradeOrder',
+  createOrder: 'http://74ab25e1merchant.cwallet.com/ccpayment/v1/pay/CreateTokenTradeOrder',
 
 }
-// common timestamp
-const timestamp = parseInt(Date.now() / 1000, 10) + 30
 
 exports.checkoutURLWithSha256 = async function checkoutURLWithSha256(req, res, next) {
   const {
@@ -22,10 +20,9 @@ exports.checkoutURLWithSha256 = async function checkoutURLWithSha256(req, res, n
     noncestr,
     ...rest
   } = req.body;
-
+  const timestamp = parseInt(Date.now() / 1000, 10) + 30
   const signStr = `ccpayment_id=${ccpayment_id}&app_id=${app_id}&app_secret=${app_secret}&out_order_no=${out_order_no}&amount=${amount}&timestamp=${timestamp}&noncestr=${noncestr}`;
   const sign = sha256(signStr)
-  console.log('sign:', sign)
   const params = {
     ...rest,
     ccpayment_id,
@@ -60,7 +57,7 @@ exports.checkoutURLWithRSA = function checkoutURLWithRSA(keyPath) {
       noncestr,
       ...rest
     } = req.body;
-
+    const timestamp = parseInt(Date.now() / 1000, 10) + 30
     const signStr = `ccpayment_id=${ccpayment_id}&app_id=${app_id}&app_secret=${app_secret}&out_order_no=${out_order_no}&amount=${amount}&timestamp=${timestamp}&noncestr=${noncestr}`;
     const privateKey = fs.readFileSync(keyPath, { encoding: 'utf8', flag: 'r' })
     const sign = signRSA(signStr, privateKey)
@@ -98,7 +95,7 @@ exports.createTokenTradeOrderWithSha256 = async function createTokenTradeOrderWi
     noncestr,
     ...rest
   } = req.body;
-
+  const timestamp = parseInt(Date.now() / 1000, 10) + 30
   const signStr = `ccpayment_id=${ccpayment_id}&app_id=${app_id}&app_secret=${app_secret}&out_order_no=${out_order_no}&amount=${amount}&timestamp=${timestamp}&noncestr=${noncestr}`;
   const sign = sha256(signStr)
 
@@ -106,13 +103,14 @@ exports.createTokenTradeOrderWithSha256 = async function createTokenTradeOrderWi
     ...rest,
     ccpayment_id,
     app_id,
-    app_secret,
+   // app_secret,
     out_order_no,
     amount,
     noncestr,
     timestamp,
     sign
   }
+  console.log('params:', params)
   try {
     const result = await axios.post(requestAPI.createOrder, params)
     if (result) {
@@ -120,6 +118,7 @@ exports.createTokenTradeOrderWithSha256 = async function createTokenTradeOrderWi
       res.json(result.data)
     }
   } catch (err) {
+    console.log('ppk:', err)
     throw Error(err)
   }
 
@@ -136,7 +135,7 @@ exports.createTokenTradeOrderWithRSA = function createTokenTradeOrderWithRSA(key
       noncestr,
       ...rest
     } = req.body;
-
+    const timestamp = parseInt(Date.now() / 1000, 10) + 30
     const signStr = `ccpayment_id=${ccpayment_id}&app_id=${app_id}&app_secret=${app_secret}&out_order_no=${out_order_no}&amount=${amount}&timestamp=${timestamp}&noncestr=${noncestr}`;
     const privateKey = fs.readFileSync(keyPath, { encoding: 'utf8', flag: 'r' })
     const sign = signRSA(signStr, privateKey)
@@ -144,7 +143,7 @@ exports.createTokenTradeOrderWithRSA = function createTokenTradeOrderWithRSA(key
       ...rest,
       ccpayment_id,
       app_id,
-      app_secret,
+      // app_secret,
       out_order_no,
       amount,
       noncestr,
@@ -171,7 +170,6 @@ exports.webhookVerifyWithSha256 = function webhookVerifyWithSha256(req, res, nex
     timestamp,
     sign,
   } = req.body;
-
   const signStr = `app_id=${app_id}&app_secret=${app_secret}&timestamp=${timestamp}&noncestr=${noncestr}`;
   const compareSign = sha256(signStr)
 
