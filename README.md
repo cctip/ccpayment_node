@@ -1,1 +1,1 @@
-# ccpayment-js-demo
+# ccpayment-nodejs
