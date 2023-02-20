@@ -9,9 +9,10 @@ const {
   checkoutURLWithSha256,
   checkoutURLWithRSA,
   createTokenTradeOrderWithSha256,
+  createTokenTradeOrderWithRSA,
   webhookVerifyWithSha256,
   webhookVerifyWithRSA
-} = require('./request');
+} = require('./service');
 
 exports.sha256 = sha256;
 exports.encodeRSA = encodeRSA;
@@ -21,5 +22,7 @@ exports.verifyRSA = verifyRSA;
 exports.checkoutURLWithSha256 = checkoutURLWithSha256;
 exports.checkoutURLWithRSA = checkoutURLWithRSA;
 exports.createTokenTradeOrderWithSha256 = createTokenTradeOrderWithSha256;
+exports.createTokenTradeOrderWithRSA = createTokenTradeOrderWithRSA;
+
 exports.webhookVerifyWithSha256 = webhookVerifyWithSha256;
 exports.webhookVerifyWithRSA = webhookVerifyWithRSA;
