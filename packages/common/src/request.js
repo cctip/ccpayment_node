@@ -11,7 +11,7 @@ const requestAPI = {
 }
 // common timestamp
 const timestamp = parseInt(Date.now() / 1000, 10) + 30
-// checkout url for sha256
+
 exports.checkoutURLWithSha256 = async function checkoutURLWithSha256(req, res, next) {
   const {
     ccpayment_id,
@@ -62,7 +62,7 @@ exports.checkoutURLWithRSA = function checkoutURLWithRSA(keyPath) {
     } = req.body;
 
     const signStr = `ccpayment_id=${ccpayment_id}&app_id=${app_id}&app_secret=${app_secret}&out_order_no=${out_order_no}&amount=${amount}&timestamp=${timestamp}&noncestr=${noncestr}`;
-    const privateKey = fs.readFileSync(path.join(__dirname, keyPath), { encoding: 'utf8', flag: 'r' })
+    const privateKey = fs.readFileSync(keyPath, { encoding: 'utf8', flag: 'r' })
     const sign = signRSA(signStr, privateKey)
     const params = {
       ...rest,
@@ -138,7 +138,7 @@ exports.createTokenTradeOrderWithRSA = function createTokenTradeOrderWithRSA(key
     } = req.body;
 
     const signStr = `ccpayment_id=${ccpayment_id}&app_id=${app_id}&app_secret=${app_secret}&out_order_no=${out_order_no}&amount=${amount}&timestamp=${timestamp}&noncestr=${noncestr}`;
-    const privateKey = fs.readFileSync(path.join(__dirname, keyPath), { encoding: 'utf8', flag: 'r' })
+    const privateKey = fs.readFileSync(keyPath, { encoding: 'utf8', flag: 'r' })
     const sign = signRSA(signStr, privateKey)
     const params = {
       ...rest,
@@ -192,7 +192,7 @@ exports.webhookVerifyWithRSA = function webhookVerifyWithRSA(keyPath) {
     } = req.body;
 
     const signStr = `app_id=${app_id}&app_secret=${app_secret}&timestamp=${timestamp}&noncestr=${noncestr}`;
-    fs.readFile(path.join(__dirname, keyPath), 'utf-8', function (err, data) {
+    fs.readFile(keyPath, 'utf-8', function (err, data) {
       if (err) {
         throw Error(err)
       }

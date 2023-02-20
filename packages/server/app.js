@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser')
 
-const { checkoutURLWithSha256, checkoutURLWithRSA, createTokenTradeOrderWithSha256, webhookVerifyWithSha256,webhookVerifyWithRSA } = require('../tools/src')
+const { checkoutURLWithSha256, checkoutURLWithRSA, createTokenTradeOrderWithSha256, createTokenTradeOrderWithRSA, webhookVerifyWithSha256,webhookVerifyWithRSA } = require('../common/src')
 const router = express.Router()
 
 const app = express();
@@ -25,10 +25,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/ccpayment', router)
 router.post('/checkout_url', checkoutURLWithSha256)
-router.post('/checkout_url_rsa', checkoutURLWithRSA('rsa_private_key.pem'))
+router.post('/checkout_url_rsa', checkoutURLWithRSA(path.join(__dirname, 'rsa_private_key.pem')))
 router.post('/createTokenTradeOrder', createTokenTradeOrderWithSha256)
 router.post('/webhook_sha256', webhookVerifyWithSha256)
-router.post('/webhook_rsa', webhookVerifyWithRSA('rsa_public_key.pem'))
+router.post('/webhook_rsa', webhookVerifyWithRSA(path.join(__dirname, 'rsa_public_key.pem')))
 // router.post('/checkout_url_rsa', test)
 
 

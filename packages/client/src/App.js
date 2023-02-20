@@ -38,6 +38,12 @@ function App() {
     })
   }
 
+  const handleRequest6 = () => {
+    axios.post('/ccpayment/createTokenTradeOrder_rsa', params).then((res) => {
+      console.log('res:', res.data)
+    })
+  }
+
   const handleRequest4 = () => {
     //const noncestr = 'app_id=202302160812171626132344467566592&app_secret=a58f572564f7fce44acd66024d6da9b4&timestamp=${Date.now()}'
     const params = {
@@ -78,6 +84,9 @@ function App() {
       </div>
       <div>
         <button onClick={handleRequest3}>ccpayment order</button>
+      </div>
+      <div>
+        <button onClick={handleRequest6}>ccpayment order rsa</button>
       </div>
       <div>
         <button onClick={handleRequest4}>web hook sha256</button>
