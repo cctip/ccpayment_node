@@ -5,13 +5,14 @@ const { sha256, signRSA, verifyRSA } = require('./sign')
 
 const requestAPI = {
   checkoutURL: 'https://admin.ccpayment.com/ccpayment/v1/concise/url/get',
-  // createOrder: 'https://admin.ccpayment.com/ccpayment/v1/pay/CreateTokenTradeOrder',
-  createOrder: 'http://74ab25e1merchant.cwallet.com/ccpayment/v1/pay/CreateTokenTradeOrder',
+  createOrder: 'https://admin.ccpayment.com/ccpayment/v1/pay/CreateTokenTradeOrder',
+  // createOrder: 'http://74ab25e1merchant.cwallet.com/ccpayment/v1/pay/CreateTokenTradeOrder',
 
 }
+// common timestamp
+const timestamp = parseInt(Date.now() / 1000, 10) + 30
 // checkout url for sha256
-exports.checkoutURLWithSha256 = async function checkoutURLWithSha256(req, res) {
-  const timestamp = parseInt(Date.now() / 1000, 10) + 30
+exports.checkoutURLWithSha256 = async function checkoutURLWithSha256(req, res, next) {
   const {
     ccpayment_id,
     app_id,
@@ -49,8 +50,7 @@ exports.checkoutURLWithSha256 = async function checkoutURLWithSha256(req, res) {
 
 // checkout url for rsa
 exports.checkoutURLWithRSA = function checkoutURLWithRSA(keyPath) {
-  const timestamp = parseInt(Date.now() / 1000, 10) + 30
-  return async function (req, res) {
+  return async function (req, res, next) {
     const {
       ccpayment_id,
       app_id,
@@ -88,8 +88,7 @@ exports.checkoutURLWithRSA = function checkoutURLWithRSA(keyPath) {
 }
 
 
-exports.createTokenTradeOrderWithSha256 = async function createTokenTradeOrderWithSha256() {
-  const timestamp = parseInt(Date.now() / 1000, 10) + 30
+exports.createTokenTradeOrderWithSha256 = async function createTokenTradeOrderWithSha256(req, res, next) {
   const {
     ccpayment_id,
     app_id,
@@ -102,7 +101,7 @@ exports.createTokenTradeOrderWithSha256 = async function createTokenTradeOrderWi
 
   const signStr = `ccpayment_id=${ccpayment_id}&app_id=${app_id}&app_secret=${app_secret}&out_order_no=${out_order_no}&amount=${amount}&timestamp=${timestamp}&noncestr=${noncestr}`;
   const sign = sha256(signStr)
-  console.log('sign:', sign)
+
   const params = {
     ...rest,
     ccpayment_id,
@@ -127,9 +126,7 @@ exports.createTokenTradeOrderWithSha256 = async function createTokenTradeOrderWi
 }
 
 exports.createTokenTradeOrderWithRSA = function createTokenTradeOrderWithRSA(keyPath) {
-  const timestamp = parseInt(Date.now() / 1000, 10) + 30
-
-  return async function (req, res) {
+  return async function (req, res, next) {
     const {
       ccpayment_id,
       app_id,
@@ -166,13 +163,44 @@ exports.createTokenTradeOrderWithRSA = function createTokenTradeOrderWithRSA(key
   }
 }
 
-exports.webhookVerifyWithSha256 = function webhookVerifyWithSha256(req, res) {
-  // TODO
+exports.webhookVerifyWithSha256 = function webhookVerifyWithSha256(req, res, next) {
+  const {
+    app_id,
+    app_secret,
+    noncestr,
+    timestamp,
+    sign,
+  } = req.body;
 
+  const signStr = `app_id=${app_id}&app_secret=${app_secret}&timestamp=${timestamp}&noncestr=${noncestr}`;
+  const compareSign = sha256(signStr)
+
+  res.status(200).json({
+    success: sign === compareSign
+  })
 }
 
-exports.webhookVerifyWithRSA = function webhookVerifyWithRSA(req, res) {
-  // TODO
 
+exports.webhookVerifyWithRSA = function webhookVerifyWithRSA(keyPath) {
+  return function (req, res, next) {
+    const {
+      app_id,
+      app_secret,
+      noncestr,
+      timestamp,
+      sign,
+    } = req.body;
 
+    const signStr = `app_id=${app_id}&app_secret=${app_secret}&timestamp=${timestamp}&noncestr=${noncestr}`;
+    fs.readFile(path.join(__dirname, keyPath), 'utf-8', function (err, data) {
+      if (err) {
+        throw Error(err)
+      }
+      const compareSign = signRSA(signStr, data)
+      res.status(200).json({
+        success: sign === compareSign
+      })
+    })
+
+  }
 }
