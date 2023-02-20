@@ -1,7 +1,6 @@
 const axios = require('axios')
 const fs = require('fs')
-const path = require('path')
-const { sha256, signRSA, verifyRSA } = require('./sign')
+const { sha256, signRSA } = require('./sign')
 
 const requestAPI = {
   checkoutURL: 'https://admin.ccpayment.com/ccpayment/v1/concise/url/get',

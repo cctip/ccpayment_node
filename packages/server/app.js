@@ -27,9 +27,9 @@ app.use('/ccpayment', router)
 router.post('/checkout_url', checkoutURLWithSha256)
 router.post('/checkout_url_rsa', checkoutURLWithRSA(path.join(__dirname, 'rsa_private_key.pem')))
 router.post('/createTokenTradeOrder', createTokenTradeOrderWithSha256)
+router.post('/createTokenTradeOrder_rsa', createTokenTradeOrderWithRSA(path.join(__dirname, 'rsa_private_key.pem')))
 router.post('/webhook_sha256', webhookVerifyWithSha256)
 router.post('/webhook_rsa', webhookVerifyWithRSA(path.join(__dirname, 'rsa_public_key.pem')))
-// router.post('/checkout_url_rsa', test)
 
 
 // catch 404 and forward to error handler
