@@ -10,6 +10,10 @@ const requestAPI = {
 
 }
 
+const createTimestamp = (threshold = 30) => {
+  return parseInt(Date.now() / 1000, 10) + threshold
+}
+
 exports.checkoutURLWithSha256 = async function checkoutURLWithSha256(req, res, next) {
   const {
     ccpayment_id,
@@ -17,10 +21,11 @@ exports.checkoutURLWithSha256 = async function checkoutURLWithSha256(req, res, n
     app_secret,
     out_order_no,
     amount,
+    json_content,
     noncestr,
     ...rest
   } = req.body;
-  const timestamp = parseInt(Date.now() / 1000, 10) + 30
+  const timestamp = createTimestamp()
   const signStr = `ccpayment_id=${ccpayment_id}&app_id=${app_id}&app_secret=${app_secret}&out_order_no=${out_order_no}&amount=${amount}&timestamp=${timestamp}&noncestr=${noncestr}`;
   const sign = sha256(signStr)
   const params = {
@@ -57,7 +62,8 @@ exports.checkoutURLWithRSA = function checkoutURLWithRSA(keyPath) {
       noncestr,
       ...rest
     } = req.body;
-    const timestamp = parseInt(Date.now() / 1000, 10) + 30
+    const timestamp = createTimestamp()
+    console.log(timestamp)
     const signStr = `ccpayment_id=${ccpayment_id}&app_id=${app_id}&app_secret=${app_secret}&out_order_no=${out_order_no}&amount=${amount}&timestamp=${timestamp}&noncestr=${noncestr}`;
     const privateKey = fs.readFileSync(keyPath, { encoding: 'utf8', flag: 'r' })
     const sign = signRSA(signStr, privateKey)
@@ -95,7 +101,7 @@ exports.createTokenTradeOrderWithSha256 = async function createTokenTradeOrderWi
     noncestr,
     ...rest
   } = req.body;
-  const timestamp = parseInt(Date.now() / 1000, 10) + 30
+  const timestamp = createTimestamp()
   const signStr = `ccpayment_id=${ccpayment_id}&app_id=${app_id}&app_secret=${app_secret}&out_order_no=${out_order_no}&amount=${amount}&timestamp=${timestamp}&noncestr=${noncestr}`;
   const sign = sha256(signStr)
 
@@ -118,7 +124,6 @@ exports.createTokenTradeOrderWithSha256 = async function createTokenTradeOrderWi
       res.json(result.data)
     }
   } catch (err) {
-    console.log('ppk:', err)
     throw Error(err)
   }
 
@@ -135,7 +140,7 @@ exports.createTokenTradeOrderWithRSA = function createTokenTradeOrderWithRSA(key
       noncestr,
       ...rest
     } = req.body;
-    const timestamp = parseInt(Date.now() / 1000, 10) + 30
+    const timestamp = createTimestamp()
     const signStr = `ccpayment_id=${ccpayment_id}&app_id=${app_id}&app_secret=${app_secret}&out_order_no=${out_order_no}&amount=${amount}&timestamp=${timestamp}&noncestr=${noncestr}`;
     const privateKey = fs.readFileSync(keyPath, { encoding: 'utf8', flag: 'r' })
     const sign = signRSA(signStr, privateKey)
