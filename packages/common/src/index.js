@@ -11,7 +11,8 @@ const {
   createTokenTradeOrderWithSha256,
   createTokenTradeOrderWithRSA,
   webhookVerifyWithSha256,
-  webhookVerifyWithRSA
+  webhookVerifyWithRSA,
+  signtureHeader
 } = require('./service');
 
 exports.sha256 = sha256;
@@ -26,3 +27,4 @@ exports.createTokenTradeOrderWithRSA = createTokenTradeOrderWithRSA;
 
 exports.webhookVerifyWithSha256 = webhookVerifyWithSha256;
 exports.webhookVerifyWithRSA = webhookVerifyWithRSA;
+exports.signtureHeader = signtureHeader;

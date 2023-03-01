@@ -21,7 +21,10 @@ function App() {
 
 
   const handleRequest1 = () => {
-    axios.post('/ccpayment/checkout_url', params).then((res) => {
+    axios.post('/ccpayment/test-header', {
+      name: 'xxx',
+      age: 33
+    }).then((res) => {
       console.log('res:', res.data)
     })
   }
@@ -96,9 +99,9 @@ function App() {
   return (
     <>
       <div>
-        <button onClick={handleRequest1}>checkout url</button>
+        <button onClick={handleRequest1}>test header</button>
       </div>
-      <div>
+      {/* <div>
         <button onClick={handleRequest2}>checkout url rsa</button>
       </div>
       <div>
@@ -112,7 +115,7 @@ function App() {
       </div>
       <div>
         <button onClick={handleRequest5}>web hook rsa</button>
-      </div>
+      </div> */}
     </>
   );
 }

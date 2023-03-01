@@ -5,8 +5,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "client": "yarn workspace client run start",
-    "server": "yarn workspace server run start"
+    "client": "yarn workspace client start",
+    "server": "yarn workspace server start"
   },
   "workspaces": [
     "packages/*"

@@ -1,4 +1,5 @@
 const axios = require('axios')
+const { create } = require('domain')
 const fs = require('fs')
 const { sha256, signRSA } = require('./sign')
 
@@ -11,6 +12,22 @@ const requestAPI = {
 
 const createTimestamp = (threshold = 30) => {
   return parseInt(Date.now() / 1000, 10) + threshold
+}
+
+exports.signtureHeader = function signtureHeader({
+  appid
+}) {
+  return function (req, res, next) {
+    const timestamp = createTimestamp()
+    Object.assign(req.headers, {
+      'content-type': 'application/json',
+      'Appid': appid,
+      'Timestamp': timestamp,
+      'Sign': `${appid}${timestamp}${JSON.stringify({ ...req.body })}`,
+    })
+    console.log('TIME:', timestamp)
+    next()
+  }
 }
 
 exports.checkoutURLWithSha256 = async function checkoutURLWithSha256(req, res, next) {
@@ -38,6 +55,7 @@ exports.checkoutURLWithSha256 = async function checkoutURLWithSha256(req, res, n
     timestamp,
     sign
   }
+  console.log('request:', req)
   try {
     const result = await axios.post(requestAPI.checkoutURL, params)
     if (result) {
@@ -108,7 +126,7 @@ exports.createTokenTradeOrderWithSha256 = async function createTokenTradeOrderWi
     ...rest,
     ccpayment_id,
     app_id,
-   // app_secret,
+    // app_secret,
     out_order_no,
     amount,
     noncestr,
