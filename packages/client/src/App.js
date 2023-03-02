@@ -8,22 +8,14 @@ function App() {
   const params = {
     "ccpayment_id": "CP10035",
     "app_id": "202302160812171626132344467566592",
-    "app_secret": "a58f572564f7fce44acd66024d6da9b4",
-    "timestamp": 1673661683,
-    "valid_timestamp": 823456,
-    "amount": "1",
-    "out_order_no": "202211181420251593489282956267520",
-    "product_name": "test",
-    "sign": "jamesanthony",
-    "noncestr": "ylaDo",
-    "return_url": "https://app.gitbook.com/xxxxx"
+    "app_secret": "a58f572564f7fce44acd66024d6da9b4"
   }
 
 
   const handleRequest1 = () => {
     axios.post('/ccpayment/test-header', {
       name: 'xxx',
-      age: 33
+      position: 'sf'
     }).then((res) => {
       console.log('res:', res.data)
     })
