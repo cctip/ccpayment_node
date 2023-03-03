@@ -5,12 +5,11 @@
 //   signRSA,
 //   verifyRSA
 // } = require('./sign');
-const ccpaymentWidgets = require('./service');
+// const ccpaymentWidgets = require('./service');
 
 // exports.sha256 = sha256;
 // exports.encodeRSA = encodeRSA;
 // exports.decodeRSA = decodeRSA;
 // exports.signRSA = signRSA;
 // exports.verifyRSA = verifyRSA;
-module.exports = ccpaymentWidgets;
-// exports.ccpaymentWidgets = ccpaymentWidgets;
+module.exports = require('./service');
