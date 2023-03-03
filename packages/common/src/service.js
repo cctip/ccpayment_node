@@ -93,7 +93,6 @@ module.exports = {
         ...data
       }, {
         headers: {
-          'content-type': 'application/json; charset=utf-8',
           'Appid': appId,
           'Timestamp': timeStamp,
           'Sign': this.sha256(`${appId}${appSecret}${timeStamp}${JSON.stringify({ ...data })}`)
@@ -116,7 +115,6 @@ module.exports = {
         ...data
       }, {
         headers: {
-          'content-type': 'application/json; charset=utf-8',
           'Appid': appId,
           'Timestamp': timeStamp,
           'Sign': this.sha256(`${appId}${appSecret}${timeStamp}${JSON.stringify({ ...data })}`)
@@ -132,9 +130,9 @@ module.exports = {
     }
   },
 
-  async webHookNotify(appId, appSecret, sign, callback) {
+  webHookNotify(appId, appSecret, sign, callback) {
     const timeStamp = this.createTimestamp()
     const compareSignture = this.sha256(`${appId}${appSecret}${timeStamp}`)
-    callback && callback(compareSignture === sign ? result.data : 'http code error')
+    callback && callback(compareSignture === sign ? 'success!' : 'http code error')
   }
 }

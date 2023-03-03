@@ -1,7 +1,7 @@
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
-const cors = require('cors')
+const fs = require('fs');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser')
@@ -15,7 +15,6 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -24,7 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const appId = '202302010636261620672405236006912';
 const appSecret = '62fbff1f796c42c50bb44d4d3d065390';
 
-// api call example
+// Regular call example
 ; (function () {
   ccpaymentWidgets.checkoutURL(appId, appSecret, {
     'valid_timestamp': 823456,
@@ -52,7 +51,7 @@ const appSecret = '62fbff1f796c42c50bb44d4d3d065390';
     "chain": "TRX",
     "amount": "0.5",
     "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
-    "merchant_order_id": "3735077979050399",
+    "merchant_order_id": "3735077979050300",
     "fiat_currency": "USD"
   }, (result) => {
     console.log('ddd:', result)
@@ -65,25 +64,43 @@ const appSecret = '62fbff1f796c42c50bb44d4d3d065390';
     console.log('eee:', result)
   })
 
-  ccpaymentWidgets.webHookNotify(appId, appSecret, 'sign', (result) => {
+  ccpaymentWidgets.webHookNotify(appId, appSecret, 'sign value...', (result) => {
     console.log('fff:', result)
   })
 
+
 })()
 
+// File read method example
+fs.readFile(path.join(__dirname, 'test.txt'), 'utf-8', (err, data) => {
+  if (err) {
+    throw Error(err)
+  }
+  let splitLine = data.toString().split(/\r?\n/)
+  ccpaymentWidgets.checkoutURL(splitLine[0], splitLine[1], {
+    'valid_timestamp': 823456,
+    'amount': '1',
+    'merchant_order_id': '012033040550',
+    'product_name': 'test',
+    'return_url': 'https://app.gitbook.com/xxxxx'
+  }, (result) => {
+    console.log('file read:', result)
+  })
+})
+
+// Routing method example
+app.use('/ccpayment', router)
+router.post('/checkout', (req, res, next) => {
+  ccpaymentWidgets.checkoutURL(appId, appSecret, {
+    ...req.body
+  }, (result) => {
+    console.log('aaa:', result)
+    res.json(result)
+  })
+})
 
 
 
-// app.use('/ccpayment', router)
-// router.post('/test-header', ccpaymentWidgets.checkoutURLWithSha256)
-// router.post('/checkout_url', checkoutURLWithSha256)
-// router.post('/checkout_url_rsa', checkoutURLWithRSA(path.join(__dirname, 'rsa_private_key.pem')))
-// router.post('/createTokenTradeOrder', createTokenTradeOrderWithSha256)
-// router.post('/createTokenTradeOrder_rsa', createTokenTradeOrderWithRSA(path.join(__dirname, 'rsa_private_key.pem')))
-// router.post('/webhook_sha256', webhookVerifyWithSha256)
-// router.post('/webhook_rsa', webhookVerifyWithRSA(path.join(__dirname, 'rsa_public_key.pem')))
-
-// catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
