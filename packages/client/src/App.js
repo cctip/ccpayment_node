@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react'
 import axios from 'axios'
-// const JsEncrypt  = require('jsencrypt');
-// console.log(JsEncrypt)
+
 function App() {
 
   // fake data
@@ -20,29 +18,10 @@ function App() {
     })
   }
 
-  
-
 
   return (
     <>
-      <div>
-        <button onClick={handleRequest1}>test header</button>
-      </div>
-      {/* <div>
-        <button onClick={handleRequest2}>checkout url rsa</button>
-      </div>
-      <div>
-        <button onClick={handleRequest3}>ccpayment order</button>
-      </div>
-      <div>
-        <button onClick={handleRequest6}>ccpayment order rsa</button>
-      </div>
-      <div>
-        <button onClick={handleRequest4}>web hook sha256</button>
-      </div>
-      <div>
-        <button onClick={handleRequest5}>web hook rsa</button>
-      </div> */}
+      <button onClick={handleRequest1}>test header</button>
     </>
   );
 }

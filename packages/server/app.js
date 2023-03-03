@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyParser = require('body-parser')
 
-const { ccpaymentWidgets } = require('../common/src')
+const ccpaymentWidgets = require('../common/src')
 const router = express.Router()
 
 const app = express();
@@ -51,7 +51,7 @@ const appSecret = '62fbff1f796c42c50bb44d4d3d065390';
     "chain": "TRX",
     "amount": "0.5",
     "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
-    "merchant_order_id": "3735077979050300",
+    "merchant_order_id": "3735077979050900",
     "fiat_currency": "USD"
   }, (result) => {
     console.log('ddd:', result)
@@ -72,12 +72,13 @@ const appSecret = '62fbff1f796c42c50bb44d4d3d065390';
 })()
 
 // File read method example
-fs.readFile(path.join(__dirname, 'test.txt'), 'utf-8', (err, data) => {
+fs.readFile(path.join(__dirname, 'test.txt'), 'utf8', (err, data) => {
   if (err) {
     throw Error(err)
   }
-  let splitLine = data.toString().split(/\r?\n/)
-  ccpaymentWidgets.checkoutURL(splitLine[0], splitLine[1], {
+  const splitLine = data.toString().split(/\r?\n/)
+  const [a, b] = splitLine
+  ccpaymentWidgets.checkoutURL(a, b, {
     'valid_timestamp': 823456,
     'amount': '1',
     'merchant_order_id': '012033040550',
