@@ -2,11 +2,11 @@ const axios = require('axios');
 const crypto = require('crypto');
 
 const requestAPI = {
-  checkoutURL: 'https://ebc65a6dtestpaymentadmin.cwallet.com/ccpayment/v1/concise/url/get',
-  selectTokenURL: 'https://ebc65a6dtestpaymentadmin.cwallet.com/ccpayment/v1/support/token',
-  selectChainURL: 'https://ebc65a6dtestpaymentadmin.cwallet.com/ccpayment/v1/token/chain',
-  submitOrderURL: 'https://ebc65a6dtestpaymentadmin.cwallet.com/ccpayment/v1/bill/create',
-  tokenRateURL: 'https://ebc65a6dtestpaymentadmin.cwallet.com/ccpayment/v1/token/rate'
+  checkoutURL: 'https://admin.ccpayment.com/ccpayment/v1/concise/url/get',
+  selectTokenURL: 'https://admin.ccpayment.com/ccpayment/v1/support/token',
+  selectChainURL: 'https://admin.ccpayment.com/ccpayment/v1/token/chain',
+  submitOrderURL: 'https://admin.ccpayment.com/ccpayment/v1/bill/create',
+  tokenRateURL: 'https://admin.ccpayment.com/ccpayment/v1/token/rate'
 }
 
 

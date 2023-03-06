@@ -1,7 +1,7 @@
 {
   "name": "ccpayment_demo",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./packages/common/src/index.js",
   "license": "MIT",
   "private": true,
   "scripts": {

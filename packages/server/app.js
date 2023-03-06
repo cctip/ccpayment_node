@@ -20,8 +20,8 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-const appId = '202302010636261620672405236006912';
-const appSecret = '62fbff1f796c42c50bb44d4d3d065390';
+const appId = '202302160812171626132344467566592';
+const appSecret = 'a58f572564f7fce44acd66024d6da9b4';
 
 // init get appid and appsecret
 ccpaymentWidgets.init(appId, appSecret)
@@ -54,7 +54,7 @@ ccpaymentWidgets.init(appId, appSecret)
     "chain": "TRX",
     "amount": "0.5",
     "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
-    "merchant_order_id": "3735077979050920",
+    "merchant_order_id": "3735077979050921",
     "fiat_currency": "USD"
   }, (result) => {
     console.log('ddd:', result)
