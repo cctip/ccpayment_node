@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./app.js 9199"
+    "start": "nodemon ./app.js"
   },
   "dependencies": {
     "body-parser": "^1.20.1",
+    "ccpayment_demo": "https://github.com/cctip/ccpayment_node#d9be622",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",

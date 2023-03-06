@@ -22,25 +22,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const appId = '202302160812171626132344467566592';
 const appSecret = 'a58f572564f7fce44acd66024d6da9b4';
-
 ccpaymentWidgets.init(appId, appSecret)
-
-console.log(ccpaymentWidgets.appId, ccpaymentWidgets.appSecret)
-ccpaymentWidgets.submitOrder({
-  "remark": "eee",
-  "token_id": "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
-  "chain": "TRX",
-  "amount": "0.5",
-  "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
-  "merchant_order_id": "3735077979050921",
-  "fiat_currency": "USD"
-}, (result) => {
-  console.log('ddd:', result)
-})
-
-
+ccpaymentWidgets.checkoutURL({
+      'valid_timestamp': 823456,
+      'amount': '1',
+      'merchant_order_id': '012033040550',
+      'product_name': 'test',
+      'return_url': 'https://app.gitbook.com/xxxxx'
+    }, (result) => {
+      console.log('aaa:', result)
+    })
 // // init get appid and appsecret
-// ccpaymentWidgets.init(appId, appSecret)
+
 
 // // Regular call example
 // ; (function () {
