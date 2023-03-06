@@ -19,13 +19,13 @@ module.exports = {
   createTimestamp(threshold = 0) {
     return parseInt(Date.now() / 1000, 10) + threshold
   },
-  
+
 
   sha256(data) {
     let hash = crypto.createHash('sha256');
     return hash.update(data, 'utf-8').digest('hex');
   },
-  
+
 
   init(appId, appSecret) {
     this.appId = appId
@@ -141,9 +141,8 @@ module.exports = {
     }
   },
 
-  webHookNotify(sign, callback) {
-    const timeStamp = this.createTimestamp()
-    const compareSignture = this.sha256(`${this.appId}${this.appSecret}${timeStamp}`)
+  webHookNotify(timeStamp, sign, body, callback) {
+    const compareSignture = this.sha256(`${this.appId}${this.appSecret}${timeStamp}${body ? JSON.stringify({ ...body }) : ''}`)
     callback && callback(compareSignture === sign ? 'success!' : Error('http code error'))
   }
 }

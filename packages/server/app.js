@@ -24,14 +24,14 @@ const appId = '202302160812171626132344467566592';
 const appSecret = 'a58f572564f7fce44acd66024d6da9b4';
 ccpaymentWidgets.init(appId, appSecret)
 ccpaymentWidgets.checkoutURL({
-      'valid_timestamp': 823456,
-      'amount': '1',
-      'merchant_order_id': '012033040550',
-      'product_name': 'test',
-      'return_url': 'https://app.gitbook.com/xxxxx'
-    }, (result) => {
-      console.log('aaa:', result)
-    })
+  'valid_timestamp': 823456,
+  'amount': '1',
+  'merchant_order_id': '012033040550',
+  'product_name': 'test',
+  'return_url': 'https://app.gitbook.com/xxxxx'
+}, (result) => {
+  console.log('aaa:', result)
+})
 // // init get appid and appsecret
 
 
