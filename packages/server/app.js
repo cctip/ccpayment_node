@@ -51,7 +51,7 @@ const appSecret = '62fbff1f796c42c50bb44d4d3d065390';
     "chain": "TRX",
     "amount": "0.5",
     "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
-    "merchant_order_id": "3735077979050900",
+    "merchant_order_id": "3735077979050923",
     "fiat_currency": "USD"
   }, (result) => {
     console.log('ddd:', result)
@@ -71,7 +71,7 @@ const appSecret = '62fbff1f796c42c50bb44d4d3d065390';
 
 })()
 
-// File read method example
+// File read way example
 fs.readFile(path.join(__dirname, 'test.txt'), 'utf8', (err, data) => {
   if (err) {
     throw Error(err)
@@ -89,7 +89,7 @@ fs.readFile(path.join(__dirname, 'test.txt'), 'utf8', (err, data) => {
   })
 })
 
-// Routing method example
+// Routing way example
 app.use('/ccpayment', router)
 router.post('/checkout', (req, res, next) => {
   ccpaymentWidgets.checkoutURL(appId, appSecret, {

@@ -32,7 +32,7 @@ module.exports = {
         }
       })
       const { appid, timestamp, sign } = result.headers
-      const compareSignture = this.sha256(`${appid}${appSecret}${timestamp}${JSON.stringify(result.data)}`)
+      const compareSignture = this.sha256(`${appid}${appSecret}${timestamp}${result.data ? JSON.stringify(result.data) : ''}`)
       if (result) {
         callback && callback(compareSignture === sign ? result.data : 'http code error')
       }
@@ -51,11 +51,11 @@ module.exports = {
         headers: {
           'Appid': appId,
           'Timestamp': timeStamp,
-          'Sign': this.sha256(`${appId}${appSecret}${timeStamp}${JSON.stringify({ ...data })}`)
+          'Sign': this.sha256(`${appId}${appSecret}${timeStamp}${data ? JSON.stringify({ ...data }) : ''}`)
         }
       })
       const { appid, timestamp, sign } = result.headers
-      const compareSignture = this.sha256(`${appid}${appSecret}${timestamp}${JSON.stringify(result.data)}`)
+      const compareSignture = this.sha256(`${appid}${appSecret}${timestamp}${result.data ? JSON.stringify(result.data) : ''}`)
       if (result) {
         callback && callback(compareSignture === sign ? result.data : 'http code error')
       }
@@ -73,11 +73,11 @@ module.exports = {
         headers: {
           'Appid': appId,
           'Timestamp': timeStamp,
-          'Sign': this.sha256(`${appId}${appSecret}${timeStamp}${JSON.stringify({ ...data })}`)
+          'Sign': this.sha256(`${appId}${appSecret}${timeStamp}${data ? JSON.stringify({ ...data }) : ''}`)
         }
       })
       const { appid, timestamp, sign } = result.headers
-      const compareSignture = this.sha256(`${appid}${appSecret}${timestamp}${JSON.stringify(result.data)}`)
+      const compareSignture = this.sha256(`${appid}${appSecret}${timestamp}${result.data ? JSON.stringify(result.data) : ''}`)
       if (result) {
         callback && callback(compareSignture === sign ? result.data : 'http code error')
       }
@@ -95,11 +95,11 @@ module.exports = {
         headers: {
           'Appid': appId,
           'Timestamp': timeStamp,
-          'Sign': this.sha256(`${appId}${appSecret}${timeStamp}${JSON.stringify({ ...data })}`)
+          'Sign': this.sha256(`${appId}${appSecret}${timeStamp}${data ? JSON.stringify({ ...data }) : ''}`)
         }
       })
       const { appid, timestamp, sign } = result.headers
-      const compareSignture = this.sha256(`${appid}${appSecret}${timestamp}${JSON.stringify(result.data)}`)
+      const compareSignture = this.sha256(`${appid}${appSecret}${timestamp}${result.data ? JSON.stringify(result.data) : ''}`)
       if (result) {
         callback && callback(compareSignture === sign ? result.data : 'http code error')
       }
@@ -117,11 +117,11 @@ module.exports = {
         headers: {
           'Appid': appId,
           'Timestamp': timeStamp,
-          'Sign': this.sha256(`${appId}${appSecret}${timeStamp}${JSON.stringify({ ...data })}`)
+          'Sign': this.sha256(`${appId}${appSecret}${timeStamp}${data ? JSON.stringify({ ...data }) : ''}`)
         }
       })
       const { appid, timestamp, sign } = result.headers
-      const compareSignture = this.sha256(`${appid}${appSecret}${timestamp}${JSON.stringify(result.data)}`)
+      const compareSignture = this.sha256(`${appid}${appSecret}${timestamp}${result.data ? JSON.stringify(result.data) : ''}`)
       if (result) {
         callback && callback(compareSignture === sign ? result.data : 'http code error')
       }
