@@ -11,6 +11,8 @@ const requestAPI = {
 
 
 module.exports = {
+  appId: null,
+  appSecret: null,
 
   createTimestamp(threshold = 0) {
     return parseInt(Date.now() / 1000, 10) + threshold
@@ -20,21 +22,27 @@ module.exports = {
     let hash = crypto.createHash('sha256');
     return hash.update(data, 'utf-8').digest('hex');
   },
+  
 
-  async selectToken(appId, appSecret, callback) {
+  init(appId, appSecret) {
+    this.appId = appId
+    this.appSecret = appSecret
+  },
+
+  async selectToken(callback) {
     const timeStamp = this.createTimestamp()
     try {
       const result = await axios.post(requestAPI.selectTokenURL, null, {
         headers: {
-          'Appid': appId,
+          'Appid': this.appId,
           'Timestamp': timeStamp,
-          'Sign': this.sha256(`${appId}${appSecret}${timeStamp}`)
+          'Sign': this.sha256(`${this.appId}${this.appSecret}${timeStamp}`)
         }
       })
       const { appid, timestamp, sign } = result.headers
-      const compareSignture = this.sha256(`${appid}${appSecret}${timestamp}${result.data ? JSON.stringify(result.data) : ''}`)
+      const compareSignture = this.sha256(`${appid}${this.appSecret}${timestamp}${result.data ? JSON.stringify(result.data) : ''}`)
       if (result) {
-        callback && callback(compareSignture === sign ? result.data : 'http code error')
+        callback && callback(compareSignture === sign ? result.data : Error('http code error'))
       }
     } catch (err) {
       Promise.reject(err)
@@ -42,97 +50,97 @@ module.exports = {
   },
 
 
-  async selectChain(appId, appSecret, data, callback) {
+  async selectChain(data, callback) {
     const timeStamp = this.createTimestamp()
     try {
       const result = await axios.post(requestAPI.selectChainURL, {
         ...data
       }, {
         headers: {
-          'Appid': appId,
+          'Appid': this.appId,
           'Timestamp': timeStamp,
-          'Sign': this.sha256(`${appId}${appSecret}${timeStamp}${data ? JSON.stringify({ ...data }) : ''}`)
+          'Sign': this.sha256(`${this.appId}${this.appSecret}${timeStamp}${data ? JSON.stringify({ ...data }) : ''}`)
         }
       })
       const { appid, timestamp, sign } = result.headers
-      const compareSignture = this.sha256(`${appid}${appSecret}${timestamp}${result.data ? JSON.stringify(result.data) : ''}`)
+      const compareSignture = this.sha256(`${appid}${this.appSecret}${timestamp}${result.data ? JSON.stringify(result.data) : ''}`)
       if (result) {
-        callback && callback(compareSignture === sign ? result.data : 'http code error')
+        callback && callback(compareSignture === sign ? result.data : Error('http code error'))
       }
     } catch (err) {
       Promise.reject(err)
     }
   },
 
-  async submitOrder(appId, appSecret, data, callback) {
+  async submitOrder(data, callback) {
     const timeStamp = this.createTimestamp()
     try {
       const result = await axios.post(requestAPI.submitOrderURL, {
         ...data
       }, {
         headers: {
-          'Appid': appId,
+          'Appid': this.appId,
           'Timestamp': timeStamp,
-          'Sign': this.sha256(`${appId}${appSecret}${timeStamp}${data ? JSON.stringify({ ...data }) : ''}`)
+          'Sign': this.sha256(`${this.appId}${this.appSecret}${timeStamp}${data ? JSON.stringify({ ...data }) : ''}`)
         }
       })
       const { appid, timestamp, sign } = result.headers
-      const compareSignture = this.sha256(`${appid}${appSecret}${timestamp}${result.data ? JSON.stringify(result.data) : ''}`)
+      const compareSignture = this.sha256(`${appid}${this.appSecret}${timestamp}${result.data ? JSON.stringify(result.data) : ''}`)
       if (result) {
-        callback && callback(compareSignture === sign ? result.data : 'http code error')
+        callback && callback(compareSignture === sign ? result.data : Error('http code error'))
       }
     } catch (err) {
       Promise.reject(err)
     }
   },
 
-  async checkoutURL(appId, appSecret, data, callback) {
+  async checkoutURL(data, callback) {
     const timeStamp = this.createTimestamp()
     try {
       const result = await axios.post(requestAPI.checkoutURL, {
         ...data
       }, {
         headers: {
-          'Appid': appId,
+          'Appid': this.appId,
           'Timestamp': timeStamp,
-          'Sign': this.sha256(`${appId}${appSecret}${timeStamp}${data ? JSON.stringify({ ...data }) : ''}`)
+          'Sign': this.sha256(`${this.appId}${this.appSecret}${timeStamp}${data ? JSON.stringify({ ...data }) : ''}`)
         }
       })
       const { appid, timestamp, sign } = result.headers
-      const compareSignture = this.sha256(`${appid}${appSecret}${timestamp}${result.data ? JSON.stringify(result.data) : ''}`)
+      const compareSignture = this.sha256(`${appid}${this.appSecret}${timestamp}${result.data ? JSON.stringify(result.data) : ''}`)
       if (result) {
-        callback && callback(compareSignture === sign ? result.data : 'http code error')
+        callback && callback(compareSignture === sign ? result.data : Error('http code error'))
       }
     } catch (err) {
       Promise.reject(err)
     }
   },
 
-  async tokenRate(appId, appSecret, data, callback) {
+  async tokenRate(data, callback) {
     const timeStamp = this.createTimestamp()
     try {
       const result = await axios.post(requestAPI.tokenRateURL, {
         ...data
       }, {
         headers: {
-          'Appid': appId,
+          'Appid': this.appId,
           'Timestamp': timeStamp,
-          'Sign': this.sha256(`${appId}${appSecret}${timeStamp}${data ? JSON.stringify({ ...data }) : ''}`)
+          'Sign': this.sha256(`${this.appId}${this.appSecret}${timeStamp}${data ? JSON.stringify({ ...data }) : ''}`)
         }
       })
       const { appid, timestamp, sign } = result.headers
-      const compareSignture = this.sha256(`${appid}${appSecret}${timestamp}${result.data ? JSON.stringify(result.data) : ''}`)
+      const compareSignture = this.sha256(`${appid}${this.appSecret}${timestamp}${result.data ? JSON.stringify(result.data) : ''}`)
       if (result) {
-        callback && callback(compareSignture === sign ? result.data : 'http code error')
+        callback && callback(compareSignture === sign ? result.data : Error('http code error'))
       }
     } catch (err) {
       Promise.reject(err)
     }
   },
 
-  webHookNotify(appId, appSecret, sign, callback) {
+  webHookNotify(sign, callback) {
     const timeStamp = this.createTimestamp()
-    const compareSignture = this.sha256(`${appId}${appSecret}${timeStamp}`)
-    callback && callback(compareSignture === sign ? 'success!' : 'http code error')
+    const compareSignture = this.sha256(`${this.appId}${this.appSecret}${timeStamp}`)
+    callback && callback(compareSignture === sign ? 'success!' : Error('http code error'))
   }
 }

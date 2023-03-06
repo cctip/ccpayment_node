@@ -23,9 +23,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 const appId = '202302010636261620672405236006912';
 const appSecret = '62fbff1f796c42c50bb44d4d3d065390';
 
+// init get appid and appsecret
+ccpaymentWidgets.init(appId, appSecret)
+
 // Regular call example
 ; (function () {
-  ccpaymentWidgets.checkoutURL(appId, appSecret, {
+  ccpaymentWidgets.checkoutURL({
     'valid_timestamp': 823456,
     'amount': '1',
     'merchant_order_id': '012033040550',
@@ -35,36 +38,36 @@ const appSecret = '62fbff1f796c42c50bb44d4d3d065390';
     console.log('aaa:', result)
   })
 
-  ccpaymentWidgets.selectToken(appId, appSecret, (result) => {
+  ccpaymentWidgets.selectToken((result) => {
     console.log('bbb:', result)
   })
 
-  ccpaymentWidgets.selectChain(appId, appSecret, {
+  ccpaymentWidgets.selectChain({
     "token_id": "8addd19b-37df-4faf-bd74-e61e214b008a"
   }, (result) => {
     console.log('ccc:', result)
   })
 
-  ccpaymentWidgets.submitOrder(appId, appSecret, {
+  ccpaymentWidgets.submitOrder({
     "remark": "eee",
     "token_id": "8e5741cf-6e51-4892-9d04-3d40e1dd0128",
     "chain": "TRX",
     "amount": "0.5",
     "contract": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
-    "merchant_order_id": "3735077979050923",
+    "merchant_order_id": "3735077979050920",
     "fiat_currency": "USD"
   }, (result) => {
     console.log('ddd:', result)
   })
 
-  ccpaymentWidgets.tokenRate(appId, appSecret, {
+  ccpaymentWidgets.tokenRate({
     "amount": "1000",
     "token_id": "f36ad1cf-222a-4933-9ad0-86df8069f916",
   }, (result) => {
     console.log('eee:', result)
   })
 
-  ccpaymentWidgets.webHookNotify(appId, appSecret, 'sign value...', (result) => {
+  ccpaymentWidgets.webHookNotify('sign value...', (result) => {
     console.log('fff:', result)
   })
 
@@ -78,7 +81,7 @@ fs.readFile(path.join(__dirname, 'test.txt'), 'utf8', (err, data) => {
   }
   const splitLine = data.toString().split(/\r?\n/)
   const [a, b] = splitLine
-  ccpaymentWidgets.checkoutURL(a, b, {
+  ccpaymentWidgets.checkoutURL({
     'valid_timestamp': 823456,
     'amount': '1',
     'merchant_order_id': '012033040550',
@@ -92,7 +95,7 @@ fs.readFile(path.join(__dirname, 'test.txt'), 'utf8', (err, data) => {
 // Routing way example
 app.use('/ccpayment', router)
 router.post('/checkout', (req, res, next) => {
-  ccpaymentWidgets.checkoutURL(appId, appSecret, {
+  ccpaymentWidgets.checkoutURL({
     ...req.body
   }, (result) => {
     console.log('aaa:', result)
