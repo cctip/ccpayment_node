@@ -14,9 +14,12 @@ module.exports = {
   appId: null,
   appSecret: null,
 
+  axios: axios,
+
   createTimestamp(threshold = 0) {
     return parseInt(Date.now() / 1000, 10) + threshold
   },
+  
 
   sha256(data) {
     let hash = crypto.createHash('sha256');

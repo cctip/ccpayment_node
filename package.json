@@ -13,5 +13,8 @@
   ],
   "devDependencies": {
     "lerna": "^6.5.1"
+  },
+  "dependencies": {
+    "ccpayment_demo": "https://github.com/cctip/ccpayment_node#b0dd7e3"
   }
 }
