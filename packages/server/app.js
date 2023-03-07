@@ -69,12 +69,12 @@ ccpaymentWidgets.init(appId, appSecret)
     console.log('eee:', result)
   })
 
-  ccpaymentWidgets.webHookNotify(34234234234, 'sign value...', {data: 'ok'}, (result) => {
-    console.log('fff:', result)
-  })
+
 
 
 })()
+
+
 
 // File read way example
 // fs.readFile(path.join(__dirname, 'test.txt'), 'utf8', (err, data) => {
@@ -95,15 +95,12 @@ ccpaymentWidgets.init(appId, appSecret)
 // })
 
 // // Routing way example
-// app.use('/ccpayment', router)
-// router.post('/checkout', (req, res, next) => {
-//   ccpaymentWidgets.checkoutURL({
-//     ...req.body
-//   }, (result) => {
-//     console.log('aaa:', result)
-//     res.json(result)
-//   })
-// })
+app.use('/ccpayment', router)
+router.post('/webhook', (req, res, next) => {
+  ccpaymentWidgets.webHookNotify(req.headers.timestamp, req.headers.sign, req.body, (result) => {
+    res.send(result ? 'Success' : 'Failed')
+  })
+})
 
 
 
